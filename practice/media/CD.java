@@ -1,25 +1,25 @@
-package practice.media;
+package media;
 
 /**
  * @author Coco
  * @date 2020/01/30
  */
-
-public class CD {
-
-    private String title;
+public class CD extends Item {
     private String artist;
     private int numOfTracks;
-    private int playingTime;
-    private boolean gotIt = false;
-    private String comment;
 
 
-    public CD(String title, String artist, int numOfTracks, int playingTime, boolean gotIt, String comment) {
-        this.title = title;
+    public CD(String title, String artist, int numOfTracks, int playingTime, String comment) {
+        super(title, playingTime, false, comment);
         this.artist = artist;
         this.numOfTracks = numOfTracks;
-        this.playingTime = playingTime;
-        this.comment = comment;
+    }
+
+
+    @Override
+    public void print() {
+        System.out.print("CD: ");
+        super.print();
+        System.out.println(": " + artist);
     }
 }
