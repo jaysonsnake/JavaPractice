@@ -18,8 +18,8 @@ public class CD extends Item {
 
     @Override
     public void print() {
-        System.out.print("CD: ");
+        System.out.print("CD:");
         super.print();
-        System.out.println(": " + artist);
+        System.out.print("artist:" + artist + "]");
     }
 }

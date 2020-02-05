@@ -15,9 +15,9 @@ public class DVD extends Item {
 
     @Override
     public void print() {
-        System.out.print("DVD: ");
+        System.out.print("DVD:");
         super.print();
-        System.out.println(": " + director);
+        System.out.print("director:" + director + "]");
     }
 
 }

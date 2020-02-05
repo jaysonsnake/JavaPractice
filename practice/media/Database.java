@@ -17,14 +17,15 @@ public class Database {
 
     public void list() {
         for (Item item : itemList) {
+            // 此处print()采用多态，可视为CD中的print()，或DVD中的print()
             item.print();
+            System.out.println();
         }
     }
 
     public static void main(String[] args) {
         Database database = new Database();
         database.add(new CD("aaa", "aaa", 10, 60, "..."));
-        database.add(new CD("bbb", "bbb", 10, 60, "..."));
         database.add(new DVD("ccc", "ccc", 10, "..."));
 
         database.list();
