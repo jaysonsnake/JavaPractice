@@ -1,5 +1,6 @@
 package castle;
 
+import java.util.HashMap;
 import java.util.Scanner;
 
 /**
@@ -8,8 +9,12 @@ import java.util.Scanner;
  */
 public class Game {
     private Room currentRoom;
-        
+    private HashMap<String, Handler> handlers = new HashMap<>();
+
     public Game() {
+        handlers.put("help", new HandlerHelp(this));
+        handlers.put("go", new HandlerGo(this));
+        handlers.put("bye", new HandlerBye(this));
         createRooms();
     }
 
@@ -49,16 +54,10 @@ public class Game {
         System.out.println();
     }
 
-    // 以下为用户命令
-
-    private void printHelp() 
-    {
-        System.out.print("迷路了吗？你可以做的命令有：go, bye, help。");
-        System.out.println("如：\tgo east");
-    }
-
-    private void goRoom(String direction)
-    {
+    /**
+     * 以下为用户命令
+     */
+    public void goRoom(String direction) {
         Room nextRoom = currentRoom.getExit(direction);
 
         if (nextRoom == null) {
@@ -74,29 +73,38 @@ public class Game {
      * 打印当前位置，及当前位置的出口
      * */
     public void showPrompt() {
-        System.out.println("你在" + currentRoom);
+        System.out.println("现在你在 " + currentRoom);
         System.out.println("出口有: " + currentRoom.getExitDesc());
+    }
+
+    private void play() {
+        Scanner in = new Scanner(System.in);
+
+        while ( true ) {
+            String line = in.nextLine();
+            String[] words = line.split(" ");
+            Handler handler = handlers.get(words[0]);
+            String value = "";
+            if (words.length > 1) {
+                value = words[1];
+            }
+            if (handler != null) {
+                handler.doCmd(value);
+                if (handler.isBye()) {
+                    break;
+                }
+            }
+        }
+
+        in.close();
     }
 	
 	public static void main(String[] args) {
-		Scanner in = new Scanner(System.in);
-		Game game = new Game();
-		game.printWelcome();
+        Game game = new Game();
+        game.printWelcome();
+        game.play();
 
-        while ( true ) {
-        		String line = in.nextLine();
-        		String[] words = line.split(" ");
-        		if ( "help".equals(words[0]) ) {
-        			game.printHelp();
-        		} else if ("go".equals(words[0]) ) {
-        			game.goRoom(words[1]);
-        		} else if ( "bye".equals(words[0]) ) {
-        			break;
-        		}
-        }
-        
         System.out.println("感谢您的光临。再见！");
-        in.close();
 	}
 
 }
